@@ -49,6 +49,28 @@ const MediaForm = () => {
         throw new CustomError("Error adding tag", 500);
       }
 
+      // sovellus kohtainen tägi
+      const appData = {
+        tag_name: "richardApp",
+        media_id: uploadResult.media.media_id,
+      };
+
+      const appOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appData),
+      };
+
+      const appResult = await fetchData<MessageResponse>(
+        "/api/tags",
+        appOptions
+      );
+      if (!appResult) {
+        throw new CustomError("Error adding tag", 500);
+      }
+
       router.push("/");
     } catch (error) {
       console.error(error);
