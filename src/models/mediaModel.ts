@@ -1,10 +1,10 @@
 import { ERROR_MESSAGES } from "@/app/utils/errorMessages";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { MediaItem, UserLevel } from "hybrid-types/DBTypes";
-import promisePool from "@/app/lib/db";
+import promisePool from "@/lib/db";
 import { MessageResponse } from "hybrid-types/MessageTypes";
-import CustomError from "@/app/classes/CustomError";
-import { fetchData } from "@/app/lib/functions";
+import CustomError from "@/classes/CustomError";
+import { fetchData } from "@/lib/functions";
 
 const uploadPath = process.env.UPLOAD_URL;
 
@@ -58,6 +58,7 @@ const fetchAllMedia = async (
   const stmt = promisePool.format(sql, params);
 
   const [rows] = await promisePool.execute<RowDataPacket[] & MediaItem[]>(stmt);
+  rows.reverse();
   return rows;
 };
 
